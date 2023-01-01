@@ -62,7 +62,45 @@ if ($filterType == 'name') {
       display: flex;
       gap: 10px;
     }
-    
+    .modal-dialog-centered {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    @media only screen and (min-width: 768px){
+      .modal-content {
+        width: 600px;
+      }
+    }
+    .modal-dialog {
+      margin: 0 auto;
+    }
+    .sign-up .modal-body {
+      background-image: url('<?php echo base_url('assets/images/search_bg.jpg') ?>');
+      background-size: cover;
+      min-height: 400px;
+      background-position: center;
+    }
+    .sign-up .parks-info {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      color: #fff;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+    .sign-up .title {
+      color: #fff;
+    }
+    .sign-up .form {
+      width: 70%;
+      margin: auto;
+
+    }
+    .sign-up input {
+        font-weight: bold;
+    }
 </style>
 <div class="clearfix"></div>
 <section id="other_page_search_area">
@@ -83,29 +121,6 @@ if ($filterType == 'name') {
   </div>
 </section>
 <section id="map_list_wrapper">
-
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <h1>Sign Up</h1>
-              Name:<input type="text" name="name">
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-        </div>
-    </div>
-
-
   <div class="col-md-offset-3 col-md-6" id="related_articles" style="display: none;">
     <div class="col-md-6 text-right">
       <p>You might be interested in:</p>
@@ -155,26 +170,26 @@ if ($filterType == 'name') {
     <div id="park-list-loader"><img src="<?php echo base_url('assets/images/ripple.gif'); ?>" /> Loading.... </div>
     <div id="park-list" <?php if (@$this->session->userdata("user_ip_address") == 'CN' || isMobile()) echo 'style="height:auto;"'; ?>>
     </div>
-
-    <div class="content" style="display: none;">
-      <h3>View all 73 results from this search</h3>
-      <p>When you  create a free TheParkDatabase account you get unlimited access to over 4,000 theme parks and attractions,with new locations added every week.</p>
-      <!-- <div class="d-inline">
-        <input type="email" name="email" id="email" class="email" >
-        <button type="submit" class="btnsign"><strong>SIGNUP FOR FREE</strong></button>
-      </div> -->
-      <div class="row">
-        <div class="col-sm-8">
-            <div class="d-flex">
-              <input type="email" class="form-control" placeholder="Enter your email address">
-              <button class="btn btnsign btn-warning" type="button" data-toggle="modal" data-target="#exampleModalCenter"><strong>SIGNUP FOR FREE</strong></button>
-            </div>
+    <?php if(!($this->session->userdata('user') && $this->session->userdata('user')['logged_in'])) { ?>
+      <div class="content" style="display: none;">
+        <h3>View all <span class="park_count">0</span> results from this search</h3>
+        <p>When you  create a free TheParkDatabase account you get unlimited access to over 4,000 theme parks and attractions,with new locations added every week.</p>
+        <!-- <div class="d-inline">
+          <input type="email" name="email" id="email" class="email" >
+          <button type="submit" class="btnsign"><strong>SIGNUP FOR FREE</strong></button>
+        </div> -->
+        <div class="row">
+          <div class="col-sm-8">
+              <div class="d-flex">
+                <input type="email" class="form-control" placeholder="Enter your email address">
+                <button class="btn btnsign btn-warning" type="button" data-toggle="modal" data-target="#exampleModalCenter"><strong>SIGNUP FOR FREE</strong></button>
+              </div>
+          </div>
+          
         </div>
-        
       </div>
-    </div>
     <!-- Modal -->
-  
+    <?php } ?>
 
   </div>
   <?php if (@$this->session->userdata("user_ip_address") == 'CN' || isMobile()) echo '</div>'; ?>
@@ -245,7 +260,52 @@ if ($filterType == 'name') {
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+
+<div class="sign-up modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        
+        <div class="modal-body">
+          <div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="text-center title">
+            <h3>Sign Up</h3>
+            <p>Unlimited access to The Park Database</p>
+          </div>
+          <div class="form">
+            <form method="post" action="<?php echo site_url('Login/process'); ?>">
+              <div class="form-group">
+                <input type="text" name="full_name" class="form-control" id="full_name" placeholder="Full name" required>
+              </div>
+              <div class="form-group">
+                <input type="email" name="email" class="form-control" id="email" placeholder="Email" required>
+              </div>
+              <div class="form-group">
+                <input type="text" name="company" class="form-control" id="company" placeholder="Company" required>
+              </div>
+              <div class="form-group">
+                <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-warning btnsign">SIGNUP FOR FREE</button>
+              </div>
+            </form>
+          </div>
+          <div class="parks-info">
+            <span>4000+ Parks & attractions</span>
+            <span>Unlimited searches</span>
+            <span>100% free</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+</div>
+
 
 <script src="<?php echo base_url('assets/js/jquery.mask.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.mCustomScrollbar.concat.min.js'); ?>"></script>
@@ -441,7 +501,7 @@ if ($filterType == 'name') {
           }
           initialize();
 
-
+          $('.park_count').html(results.park_count)
         } else {
           data = results;
           initialize();

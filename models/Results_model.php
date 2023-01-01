@@ -164,10 +164,15 @@ class Results_model extends CI_Model
        $this->db->order_by('name','ASC');
        
        $this->db->group_by('parks.park_id','ASC');
+
+       $total_query = $this->db->get('parks');
+        if(!($this->session->userdata('user') && $this->session->userdata('user')['logged_in'])) {
+            $this->db->limit(5);
+        }       
        
        $query = $this->db->get('parks');
        //$data["sql"] = str_replace('\n',' ',$this->db->last_query());
-        
+
        // logging for search 
        $query_details = array(
         'latitude' => $lat,
@@ -183,7 +188,8 @@ class Results_model extends CI_Model
        
       if($query->num_rows()>0){
         $data["parks"] = $query->result_array(); 
-        
+        $data["park_count"] = count($total_query->result_array());
+
         return  $data;
       }
       //$data["parks"] =array();

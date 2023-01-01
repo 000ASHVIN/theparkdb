@@ -8,64 +8,130 @@
     width: auto;
 }
 
+.title-heading {
+    border-top: unset;
+    border-bottom: unset;
+    text-align: unset;
+}
+.title-content {
+    font-size: 35px;
+    color: #fff;
+}
+#searchbox {
+    /* border: 2px solid #fff; */
+    border: unset;
+    border-radius: 30px;
+    padding: 10px 20px;
+    background: #fff;
+    color: gray;
+}
+#searchbox:focus {
+    color: gray;
+}
+#searchbox::placeholder {
+    color: gray;
+}
+#home_search_btn_holder {
+    right: 3px;
+    top: 3px;
+}
+.btn-submit.btn-serach-icon {
+    background: #a55bd3;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+@media (max-width: 1199px) {
+ .title-content {
+     font-size: 28px;
+ }
+ .btn-submit.btn-serach-icon {
+    height: 35px;
+    width: 35px;
+ }
+}
+
+@media (max-width: 768px) {
+    #home_search_btn_holder {
+        right: 17px;
+    }
+}
 
 @media (max-width: 580px) {
  
   
-.btn-default {
-    font-size: 18px;
-    width: 100%;
+ .btn-default {
+     font-size: 18px;
+     width: 100%;
+ }
+
+ #searchbox {
+
+     font-size: 12px;
+     margin-bottom: 10px;
+     width: 100%;
+     background: #3f0c5f;
+     border-bottom: 0px solid #fff;
+     border-radius: 5px;
+
+ } 
+
+ #searchbox:focus{
+ border-bottom: 0px solid #fff; 
+ }
+
+ #search-area {
+     min-height: 580px;
+     padding-top: 100px;
+     background: #4e1473;
+ }
+
+ .search-form-wrapper {
+     margin-top: 50px;
+     padding: 0px;
+ }
+
+ #sub_form, #sub_form div{
+     width: 100%;
+ }
+
+ .title-content {
+     font-size: 24px;
+ }
 }
 
-#searchbox {
 
-    font-size: 12px;
-    margin-bottom: 10px;
-    width: 100%;
-    background: #3f0c5f;
-    border-bottom: 0px solid #fff;
-    border-radius: 5px;
 
-} 
-
-#searchbox:focus{
-  border-bottom: 0px solid #fff; 
-}
-
-#search-area {
-    min-height: 580px;
-    padding-top: 100px;
-    background: #4e1473;
-}
-
-.search-form-wrapper {
-    margin-top: 50px;
-    padding: 0px;
-}
-
-#sub_form, #sub_form div{
-    width: 100%;
-}
-
-}
 </style>
 <section class="parallax" id="search-area">
         <div class="container">
-           <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
-                <p class="pre-heading">A <strong>database</strong> of </p>
-                <h1 class="title-heading"><strong>theme parks<br/></strong><em>&amp;</em><strong>attractions</strong></h1>
-                <p class="post-heading">around the world</p>
+           <div class="">
+                <!-- <p class="pre-heading">A <strong>database</strong> of </p> -->
+                <div class="text-center">
+                    <span class="title-content">FIND </span>
+                    <span class="title-heading"><strong>theme parks </strong><em>&amp;</em><strong> attractions</strong> </span>
+                    <span class="title-content">AROUND THE WORLD</span>
+                </div>
+                <!-- <p class="post-heading">around the world</p> -->
                 
-                <div class="search-form-wrapper">
-                    <form class="form-inline" id="sub_form" role="form">
-					<div class="input-group">
-                               <input autofocus="true" type="search" id="searchbox" class="form-control ui-autocomplete-input" name="search" placeholder="Search for a park, type, country or region" autocomplete="off">
-                               <div class="input-group-btn" id="home_search_btn_holder">
-                                  <button type="submit" class="btn-submit"><i class="glyphicon glyphicon-search"></i></button>
-                        	   </div><!-- /btn-group -->
+                <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
+                    <div class="search-form-wrapper">
+                        <form class="form-inline" id="sub_form" role="form">
+                        <div class="input-group">
+                                <input autofocus="true" type="search" id="searchbox" class="form-control ui-autocomplete-input" name="search" placeholder="Search for a park, type, country or region" autocomplete="off">
+                                <div class="input-group-btn" id="home_search_btn_holder">
+                                    <button type="submit" class="btn-submit btn-serach-icon"><i class="glyphicon glyphicon-search"></i></button>
+                                </div><!-- /btn-group -->
+                        </div>
+                        <button type="submit" id="sm-sub-btn" class="btn btn-default btn-submit">SEARCH</button>
+                        </form>
                     </div>
-                    <button type="submit" id="sm-sub-btn" class="btn btn-default btn-submit">SEARCH</button>
-					</form>
                 </div>
            </div> 
           <?php 
@@ -73,16 +139,17 @@
           ?>
           <div class="clearfix"></div>
            <div class="col-md-12" id="region_tabs_holder">
-           <p>or browse parks by location</p>
+           <!-- <p>or browse parks by location</p> -->
+           <p>or try popular searches: USA, Florida, Japan, Universal Studies, Disney</p>
 
            <!-- Nav tabs --> 
-              <ul class="nav nav-tabs" role="tablist" id="region_tabs">
+              <!-- <ul class="nav nav-tabs" role="tablist" id="region_tabs">
                 <li role="presentation"><a id="asia_tab_btn" href="#asia" aria-controls="asia" role="tab" data-toggle="tab">ASIA <i class="glyphicon glyphicon-menu-down"></i></a></li>
                 <li role="presentation"><a id="americas_tab_btn" href="#americas" aria-controls="americas" role="tab" data-toggle="tab">AMERICAS <i class="glyphicon glyphicon-menu-down"></i></a></li>
                 <li role="presentation"><a id="europe_tab_btn" href="#europe" aria-controls="europe" role="tab" data-toggle="tab">EUROPE <i class="glyphicon glyphicon-menu-down"></i></a></li>
                 <li role="presentation"><a id="africa_tab_btn" href="#africa" aria-controls="africa" role="tab" data-toggle="tab">AFRICA <i class="glyphicon glyphicon-menu-down"></i></a></li>
                 <li role="presentation"><a id="ocenia_tab_btn" href="#ocenia" aria-controls="ocenia" role="tab" data-toggle="tab">MIDDLE EAST <i class="glyphicon glyphicon-menu-down"></i></a></li>
-              </ul>
+              </ul> -->
             
               <!-- Tab panes -->
               <div class="tab-content f16">

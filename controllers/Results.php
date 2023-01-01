@@ -78,14 +78,15 @@ class Results extends CI_Controller {
         if($parks_data = $this->Results_model->get_parks($filterKeyword,$filterType)){
           $result["parks"]= $parks_data["parks"]; 
             
-          $result["park_count"]= count($parks_data["parks"]); 
+        //   $result["park_count"]= count($parks_data["parks"]); 
+          $result["park_count"]= $parks_data["park_count"];
           $result["status"] = "1";
           
         }
         else{
-        $result["parks"]= array();   
-        $result["park_count"]= count($result["parks"]);     
-        $result["status"] = "0";
+            $result["parks"]= array();   
+            $result["park_count"]= count($result["parks"]);     
+            $result["status"] = "0";
         }
         
        echo json_encode($result);
