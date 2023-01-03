@@ -101,6 +101,24 @@ if ($filterType == 'name') {
     .sign-up input {
         font-weight: bold;
     }
+    .ride_holder {
+      position: relative;
+    }
+    .view-park-content {
+      position: absolute;
+      bottom: 0; 
+      background: rgba(0, 0, 0, 0.7); 
+      color: #f1f1f1; 
+      width: 100%;
+      padding: 20px;
+      padding-bottom: 50px;
+    }
+    .sorter_dd_holder {
+      width: 220px;
+    }
+    .sort_dir_trigger {
+      cursor: auto;
+    }
 </style>
 <div class="clearfix"></div>
 <section id="other_page_search_area">
@@ -136,16 +154,19 @@ if ($filterType == 'name') {
         <div class="sorting-options">
           <div class="col-md-9 col-xs-1 sorter_dd_holder">
             <div class="select-box type-2 filter-block-item">
-              <input name="sort_key" id="short_key" class="js-input no-select" type="text" readonly value="EST. VALUE" placeholder="SORT BY" />
+              <input name="sort_key" id="short_key" class="js-input no-select" type="hidden" value="" />
+              <input name="sort_key" id="short_key_id" class="js-input no-select" type="text" readonly value="" placeholder="SORT BY" />
               <ul>
-                <li>ATTENDANCE</li>
-                <li>EST. VALUE</li>
+                <li>Attendance (High - Low)</li>
+                <li>Attendance (Low - High)</li>
+                <li>Est. Value (High - Low)</li>
+                <li>Est. Value (Low - High)</li>
               </ul>
             </div>
           </div>
-          <div class="col-md-2 col-xs-1 dir">
+          <div class="col-md-1 col-xs-1 dir">
             <input name="sort_direction" id="sort_direction" type="hidden" readonly value="DESC" />
-            <button class="btn btn-default sort_dir_trigger"><i class="fa fa-sort-amount-desc"></i></button>
+            <span class="btn btn-default sort_dir_trigger"><i class="fa fa-sort-amount-desc"></i></span>
 
           </div>
           <div class="col-md-5 col-xs-3 filter">
@@ -572,7 +593,7 @@ if ($filterType == 'name') {
       $("#park_types").multiselect("uncheckAll");
       $('.park_types_holder button span:nth-child(2)').html('ALL Types');
 
-      $('#short_key').attr('value', 'EST. VALUE');
+      $('#short_key_id').attr('value', 'SORT BY');
       $('#sort_direction').attr('value', 'DESC');
 
 
@@ -584,7 +605,8 @@ if ($filterType == 'name') {
       mapOptions = {
         zoom: mapZoom,
         center: latlngCenter,
-        mapType: 'roadmap'
+        mapType: 'roadmap',
+        scrollwheel: false,
       }
 
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -615,23 +637,46 @@ if ($filterType == 'name') {
     });
     $('.park_types_holder button span:nth-child(2)').html('ALL Types');
 
-    $('#park_types, #short_key, #sort_direction').change(function() {
+    $('#park_types, #short_key_id, #sort_direction').change(function() {
+      console.log('done')
+      var value = '';
+      if($(this).val() == 'Attendance (High - Low)') {
+        $('#short_key').val('ATTENDANCE');
+        $('#sort_direction').val('DESC')
+      } else if($(this).val() == 'Attendance (Low - High)') {
+        $('#short_key').val('ATTENDANCE');
+        $('#sort_direction').val('ASC')
+      } else if($(this).val() == 'Est. Value (High - Low)') {
+        $('#short_key').val('EST. VALUE');
+        $('#sort_direction').val('DESC')
+      } else if($(this).val() == 'Est. Value (Low - High)') {
+        $('#short_key').val('EST. VALUE');
+        $('#sort_direction').val('ASC')
+      }
+
+      var current = $('#sort_direction').val();
+      if (current == 'DESC') {
+        $('.sort_dir_trigger i').removeClass('fa-sort-amount-desc').addClass('fa-sort-amount-asc');
+      } else {
+        $('.sort_dir_trigger i').removeClass('fa-sort-amount-asc').addClass('fa-sort-amount-desc');
+      }
+
       add_map_components();
     });
 
 
-    $('.sort_dir_trigger').click(function() {
-      var current = $('#sort_direction').val();
-      if (current == 'DESC') {
-        $('#sort_direction').val('ASC');
-        $('.sort_dir_trigger i').removeClass('fa-sort-amount-desc').addClass('fa-sort-amount-asc');
-      } else {
-        $('#sort_direction').val('DESC');
-        $('.sort_dir_trigger i').removeClass('fa-sort-amount-asc').addClass('fa-sort-amount-desc');
-      }
-      $('#sort_direction').trigger('change');
+    // $('.sort_dir_trigger').click(function() {
+    //   var current = $('#sort_direction').val();
+    //   if (current == 'DESC') {
+    //     $('#sort_direction').val('ASC');
+    //     $('.sort_dir_trigger i').removeClass('fa-sort-amount-desc').addClass('fa-sort-amount-asc');
+    //   } else {
+    //     $('#sort_direction').val('DESC');
+    //     $('.sort_dir_trigger i').removeClass('fa-sort-amount-asc').addClass('fa-sort-amount-desc');
+    //   }
+    //   $('#sort_direction').trigger('change');
 
-    });
+    // });
 
 
   }); // ready

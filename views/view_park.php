@@ -284,8 +284,16 @@ if (strpos($wiki_name,'/')) {// url
            $cpa_total = 0;
            $mostRecent= 0;
            $Recent = 0;
-            foreach($rides as $value)
+
+           $limit = 0;
+           if(!($this->session->userdata('user') && $this->session->userdata('user')['logged_in'])) {
+            $limit = 1;
+           }
+            foreach($rides as $key => $value)
             {
+                if($limit && $key == 5) {
+                    break;
+                }
                 $curCreatedDate = strtotime($value['created']);
                 $curUpdatedDate = strtotime($value['last_updated']);
                 
@@ -324,29 +332,57 @@ if (strpos($wiki_name,'/')) {// url
        if($atts){
        ?>
        <div class="col-md-4">
-      <h5 class="table_toggle"> <div class="pull-left">ATTENDANCE</div> <i class="fa fa-angle-right visible-xs"></i>
-        <div class="clearfix"></div>
-        </h5>
-       <div class="toggle_target">
-            <table class="details table table-responsive table-hover">
-            <tbody><tr><th>Year</th><th>Value</th></tr>
-            <?php 
-            for($i=$max_year;$i>=$min_year;$i--)
-             {
-               if($atts[0][$i])
-               echo '<tr><td>'.$i.'</td><td>'.htmlspecialchars(number_format($atts[0][$i])).'</td></tr>';
-             }
-            ?>  
-            </tbody></table>
-            <?php
-            $atts[0]["source"] = htmlspecialchars($atts[0]["source"]);
-            $atts[0]["source"] = str_replace('\n','<br/>',$atts[0]["source"]);
-            ?>
-            <p><small><strong>Source</strong>:<?php echo nl2br($atts[0]["source"]); ?></small></p>
-            
-         </div>
+            <h5 class="table_toggle"> <div class="pull-left">ATTENDANCE</div> <i class="fa fa-angle-right visible-xs"></i>
+                <div class="clearfix"></div>
+            </h5>
+            <div class="toggle_target">
+                <table class="details table table-responsive table-hover">
+                <tbody><tr><th>Year</th><th>Value</th></tr>
+                <?php 
+                $limit = 0;
+                $index = 0;
+                if(!($this->session->userdata('user') && $this->session->userdata('user')['logged_in'])) {
+                $limit = 1;
+                }
+                for($i=$max_year;$i>=$min_year;$i--)
+                {
+                    if($limit && $index == 5) {
+                        break;
+                    }
+                    if($atts[0][$i]) {
+                        echo '<tr><td>'.$i.'</td><td>'.htmlspecialchars(number_format($atts[0][$i])).'</td></tr>';
+                        $index++;
+                    }
+                }
+                ?>  
+                </tbody></table>
+                <?php
+                $atts[0]["source"] = htmlspecialchars($atts[0]["source"]);
+                $atts[0]["source"] = str_replace('\n','<br/>',$atts[0]["source"]);
+                ?>
+                <p><small><strong>Source</strong>:<?php echo nl2br($atts[0]["source"]); ?></small></p>
+                
+            </div>
        </div>
        <?php } ?>
+
+       <?php if(!($this->session->userdata('user') && $this->session->userdata('user')['logged_in'])) { ?>
+        <div class="view-park-content">
+            <h3>View all rides and attendance data</h3>
+            <p>When you  create a free TheParkDatabase account you get unlimited access to over 4,000 theme parks and attractions,with new locations added every week.</p>
+            
+            <div class="row">
+            <div class="col-sm-8">
+                <div class="d-flex">
+                    <input type="email" class="form-control" placeholder="Enter your email address">
+                    <button class="btn btnsign btn-warning" type="button" data-toggle="modal" data-target="#exampleModalCenter"><strong>SIGNUP FOR FREE</strong></button>
+                </div>
+            </div>
+            
+            </div>
+        </div>
+        <!-- Modal -->
+        <?php } ?>
       </div>
        
     <?php 
